@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"log"
+	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/sethvargo/go-signalcontext"
@@ -14,7 +16,7 @@ func main() {
 	defer cancel()
 
 	srv := http.Server{
-		Addr: ":8080",
+		Addr: getRunAddr(),
 	}
 
 	go func() {
@@ -32,4 +34,12 @@ func main() {
 	if err := srv.Shutdown(shutdownCtx); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func getRunAddr() string {
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		port = "8080"
+	}
+	return net.JoinHostPort("", port)
 }
