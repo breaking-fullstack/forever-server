@@ -16,7 +16,8 @@ func main() {
 	defer cancel()
 
 	srv := http.Server{
-		Addr: getRunAddr(),
+		Addr:    getRunAddr(),
+		Handler: getRoutes(),
 	}
 
 	go func() {
