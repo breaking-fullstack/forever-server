@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getRoutes() http.Handler {
+func (s *Server) getRoutes() http.Handler {
 	router := gin.Default()
 	return router
 }
