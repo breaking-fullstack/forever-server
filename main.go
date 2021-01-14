@@ -5,6 +5,8 @@ import (
 	"net"
 	"os"
 
+	"github.com/breaking-fullstack/forever-server/service"
+	"github.com/breaking-fullstack/forever-server/verifier"
 	"github.com/sethvargo/go-signalcontext"
 )
 
@@ -12,7 +14,10 @@ func main() {
 	ctx, cancel := signalcontext.OnInterrupt()
 	defer cancel()
 
-	srv := NewServer(getRunAddr(), nil, nil)
+	srv := NewServer(getRunAddr(),
+		service.NewMusic(nil),
+		verifier.NewFirebase(),
+	)
 
 	go func() {
 		if err := srv.Start(); err != nil {
