@@ -15,7 +15,7 @@ func TestHandleRoot(t *testing.T) {
 	testReq := httptest.NewRequest(http.MethodGet, "/", nil)
 	testRec := httptest.NewRecorder()
 
-	srv := NewServer(":8080", nil)
+	srv := NewServer(":8080", nil, nil)
 	srv.getRoutes().ServeHTTP(testRec, testReq)
 
 	assert.Equal(t, http.StatusOK, testRec.Code)

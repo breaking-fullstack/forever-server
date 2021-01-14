@@ -12,7 +12,7 @@ func main() {
 	ctx, cancel := signalcontext.OnInterrupt()
 	defer cancel()
 
-	srv := NewServer(getRunAddr(), nil)
+	srv := NewServer(getRunAddr(), nil, nil)
 
 	go func() {
 		if err := srv.Start(); err != nil {

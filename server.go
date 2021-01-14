@@ -6,19 +6,22 @@ import (
 	"time"
 
 	"github.com/breaking-fullstack/forever-server/service"
+	"github.com/breaking-fullstack/forever-server/verifier"
 )
 
 //Server defines a wrapper around http.Server.
 //It holds run dependencies useful in handlers.
 type Server struct {
-	musicService service.Music
+	musicService  service.Music
+	tokenVerifier verifier.Verifier
 	*http.Server
 }
 
 //NewServer returns a new Server struct holding dependencies
-func NewServer(addr string, ms service.Music) *Server {
+func NewServer(addr string, ms service.Music, tv verifier.Verifier) *Server {
 	srv := &Server{
-		musicService: ms,
+		musicService:  ms,
+		tokenVerifier: tv,
 		Server: &http.Server{
 			WriteTimeout: 5 * time.Second,
 			ReadTimeout:  5 * time.Second,
