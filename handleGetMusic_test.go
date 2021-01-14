@@ -18,7 +18,7 @@ import (
 type getMusicTestService struct{}
 
 func (*getMusicTestService) GetAll(context.Context, string) ([]entity.Music, error) {
-	return getMusicTestList, nil
+	return testhelper.MusicList, nil
 }
 
 func TestHandleGetMusic(t *testing.T) {
@@ -30,24 +30,13 @@ func TestHandleGetMusic(t *testing.T) {
 	srv.Handler.ServeHTTP(testRec, testReq)
 	assert.Equal(t, 200, testRec.Code)
 
-	expected, err := json.Marshal(getMusicTestList)
+	expected, err := json.Marshal(testhelper.MusicList)
 	assert.NoError(t, err)
 
 	got, err := ioutil.ReadAll(testRec.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, bytes.TrimSpace(expected), bytes.TrimSpace(got))
-}
-
-var getMusicTestList = []entity.Music{
-	{
-		Title: "Foo Bars",
-		URL:   "http://foo.bars/music",
-	},
-	{
-		Title: "Baz Bass",
-		URL:   "http://baz.music",
-	},
 }
 
 func (*getMusicTestService) Save(ctx context.Context, userID string, m entity.Music) error {
