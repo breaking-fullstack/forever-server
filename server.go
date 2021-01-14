@@ -11,12 +11,12 @@ import (
 //Server defines a wrapper around http.Server.
 //It holds run dependencies useful in handlers.
 type Server struct {
-	musicService service.MusicService
+	musicService service.Music
 	*http.Server
 }
 
 //NewServer returns a new Server struct holding dependencies
-func NewServer(addr string, ms service.MusicService) *Server {
+func NewServer(addr string, ms service.Music) *Server {
 	srv := &Server{
 		musicService: ms,
 		Server: &http.Server{

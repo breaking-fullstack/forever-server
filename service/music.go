@@ -6,7 +6,7 @@ import (
 	"github.com/breaking-fullstack/forever-server/entity"
 )
 
-type MusicService interface {
+type Music interface {
 	GetAll(ctx context.Context, userID string) ([]entity.Music, error)
 	Save(ctx context.Context, userID string, m entity.Music) error
 	Delete(ctx context.Context, userID string, mID string) error
