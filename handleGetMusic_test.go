@@ -4,12 +4,14 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/breaking-fullstack/forever-server/entity"
+	"github.com/breaking-fullstack/forever-server/testhelper"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,8 +22,9 @@ func (*getMusicTestService) GetAll(context.Context, string) ([]entity.Music, err
 }
 
 func TestHandleGetMusic(t *testing.T) {
-	srv := NewServer("", &getMusicTestService{}, nil)
+	srv := NewServer("", &getMusicTestService{}, &testhelper.AuthVerifier{})
 	testReq := httptest.NewRequest(http.MethodGet, "/music", nil)
+	testReq.Header.Set("Authorization", fmt.Sprintf("Bearer %s", testhelper.ValidAuthJWT))
 	testRec := httptest.NewRecorder()
 
 	srv.Handler.ServeHTTP(testRec, testReq)
