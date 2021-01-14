@@ -1,12 +1,9 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
-	"net/http"
 	"os"
-	"time"
 
 	"github.com/sethvargo/go-signalcontext"
 )
@@ -15,13 +12,10 @@ func main() {
 	ctx, cancel := signalcontext.OnInterrupt()
 	defer cancel()
 
-	srv := http.Server{
-		Addr:    getRunAddr(),
-		Handler: getRoutes(),
-	}
+	srv := NewServer(getRunAddr(), nil)
 
 	go func() {
-		if err := srv.ListenAndServe(); err != nil {
+		if err := srv.Start(); err != nil {
 			log.Fatal(err)
 		}
 	}()
@@ -30,9 +24,7 @@ func main() {
 	<-ctx.Done()
 
 	// Stop the server
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	if err := srv.Shutdown(shutdownCtx); err != nil {
+	if err := srv.Stop(); err != nil {
 		log.Fatal(err)
 	}
 }
