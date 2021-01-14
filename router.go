@@ -8,5 +8,8 @@ import (
 
 func (s *Server) getRoutes() http.Handler {
 	router := gin.Default()
+
+	router.GET("/", s.handleRoot)
+
 	return router
 }
