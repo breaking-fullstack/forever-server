@@ -4,12 +4,13 @@ import (
 	"context"
 	"testing"
 
+	"github.com/breaking-fullstack/forever-server/database"
 	"github.com/breaking-fullstack/forever-server/testhelper"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMusicService(t *testing.T) {
-	testMusicServiceImplementation(t, &musicServiceImpl{nil})
+	testMusicServiceImplementation(t, &musicServiceImpl{database.NewInMem()})
 }
 
 func testMusicServiceImplementation(t *testing.T, ms Music) {
