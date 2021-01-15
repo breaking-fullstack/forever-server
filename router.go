@@ -16,6 +16,7 @@ func (s *Server) getRoutes() http.Handler {
 	msRouter := router.Group("/music", middleware.Auth(s.tokenVerifier))
 	{
 		msRouter.GET("", s.handleGetMusic)
+		msRouter.POST("", s.handleAddMusic)
 	}
 
 	return router
