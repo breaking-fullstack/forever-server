@@ -5,6 +5,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/breaking-fullstack/forever-server/database"
 	"github.com/breaking-fullstack/forever-server/service"
 	"github.com/breaking-fullstack/forever-server/verifier"
 	"github.com/sethvargo/go-signalcontext"
@@ -15,7 +16,7 @@ func main() {
 	defer cancel()
 
 	srv := NewServer(getRunAddr(),
-		service.NewMusic(nil),
+		service.NewMusic(database.NewInMem()),
 		verifier.NewFirebase(),
 	)
 
